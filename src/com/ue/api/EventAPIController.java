@@ -1,6 +1,5 @@
 package com.ue.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +19,6 @@ import com.ue.service.EventService;
 import com.ue.utils.BeanUtils;
 import com.ue.utils.FileUtils;
 import com.ue.utils.JSONUtils;
-import com.ue.utils.JavaUtils;
 import com.ue.utils.JsonUtil;
 import com.ue.utils.LogUtils;
 
@@ -261,13 +259,15 @@ public class EventAPIController {
 		}
 		return user.getUse_id();
 	}
-	
+
 	// 含有文件的事件上传
 	@RequestMapping(value = "/upload/puretext")
 	public void puretextUpload(@RequestParam("event") String eventJson, HttpServletRequest request , HttpServletResponse response) throws IOException {
 
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=UTF-8");
+		if(eventJson != null){
+			eventJson = new String(eventJson.getBytes("ISO_8859_1"),"UTF-8");
+		}
+		
 		Event event = JsonUtil.fromJson(eventJson, Event.class);
 		boolean res = eventService.insertEvent(event);
 		LogUtils.sysoln(" ;; " + eventJson);		
