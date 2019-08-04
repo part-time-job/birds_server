@@ -265,7 +265,7 @@ public class EventAPIController {
 	// 含有文件的事件上传
 	@RequestMapping(value = "/upload/puretext")
 	public void puretextUpload(@RequestParam("event") String eventJson, HttpServletRequest request , HttpServletResponse response) throws IOException {
-		request.setCharacterEncoding("utf-8");
+
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
 		Event event = JsonUtil.fromJson(eventJson, Event.class);
@@ -275,7 +275,7 @@ public class EventAPIController {
 	}
 	@RequestMapping(value = "/upload/audio")
 	public void audioUpload(@RequestParam("event") String eventJson, HttpServletRequest request ,@RequestParam("audioFile") MultipartFile file, HttpServletResponse response) throws IOException {
-		request.setCharacterEncoding("utf-8");
+
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=UTF-8");
 		//LogUtils.sysoln(file.getOriginalFilename() +  " ;; " + eventJson);	
