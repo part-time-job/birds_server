@@ -3,6 +3,24 @@ function showLoginModel() {
 	$('#login_Modal').modal('show');
 
 }
+
+$(document).ready(function(){  
+　$('#data_type_select').change(function(){  
+	var dataType = $(this).children('option:selected').val();
+
+	$.ajax({
+		type : "post",
+		url : "../api/event/setting/dataType",
+		async : true,
+		data : "dataType=" + dataType,
+		success : function() {
+            var mainframe=window.parent.document.getElementById('mainframe');
+            mainframe.contentWindow.location.reload(true);
+		}
+	});　　　
+	})
+});
+
 function showRegisterModel() {
 	changeCode(); // 刷新验证吗
 	$('#register_Modal').modal('show');

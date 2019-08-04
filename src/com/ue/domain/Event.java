@@ -14,21 +14,24 @@ public class Event implements Serializable {
 	public static final int DATATYPE_PURETEXT = 0;
 	public static final int DATATYPE_PICTURE = 1;
 	public static final int DATATYPE_AUDIO = 2;
+	public static final int DATATYPE_PURETEXT_cicada = 100;
+	public static final int DATATYPE_PICTURE_cicada = 101;
+	public static final int DATATYPE_AUDIO_cicada = 102;
 
-	private int eve_id; // 事件id
-	private int use_id; // 用户id
-	private int eve_count;// 事件中鸟的数量
-	private int eve_positivecount;// 事件的点赞数
-	private String eve_question; // 事件问题
-	private String eve_time; // 事件发布时间
-	private float eve_longitude; // 事件的位置经度
-	private float eve_latitude; // 事件的位置纬度
-	private int eve_datatype; // 数据类型
-	private String eve_puretext; // 纯文本
-	private String eve_audiourl; // 音频文件的url
-	private String eve_pictureurl; // 图文件的URL
-	private String eve_description; // 事件的问题
-	private String eve_remark; // 事件的备注
+	private int eve_id; // 浜嬩欢id
+	private int use_id; // 鐢ㄦ埛id
+	private int eve_count;// 浜嬩欢涓笩鐨勬暟閲�
+	private int eve_positivecount;// 浜嬩欢鐨勭偣璧炴暟
+	private String eve_question; // 浜嬩欢闂
+	private String eve_time; // 浜嬩欢鍙戝竷鏃堕棿
+	private float eve_longitude; // 浜嬩欢鐨勪綅缃粡搴�
+	private float eve_latitude; // 浜嬩欢鐨勪綅缃含搴�
+	private int eve_datatype; // 鏁版嵁绫诲瀷
+	private String eve_puretext; // 绾枃鏈�
+	private String eve_audiourl; // 闊抽鏂囦欢鐨剈rl
+	private String eve_pictureurl; // 鍥炬枃浠剁殑URL
+	private String eve_description; // 浜嬩欢鐨勯棶棰�
+	private String eve_remark; // 浜嬩欢鐨勫娉�
 
 	public Event() {
 

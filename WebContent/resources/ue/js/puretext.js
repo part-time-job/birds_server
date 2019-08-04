@@ -79,13 +79,15 @@ function fillIntoPage(eventsJson){
 		
 		
 		var li_item = "";	
-		
+		if(events[i].eve_time == undefined || events[i].eve_time == null || events[i].eve_time == ""){
+			events[i].eve_time = "       ";
+		}
 		li_item +="<li class=\"list-group-item\">";
 		li_item +="	<a href=\"#\"	class=\"thumb-sm pull-left m-r-sm\"> ";	
 		li_item +="		<img src=\""+"../user/icon/a0.png\""+"class=\"img-circle\">";	
 		li_item +="	</a> ";	
 		li_item +="	<a href=\"#\" class=\"clear\">";	
-		li_item +="		<small class=\"pull-right\"><i class=\"glyphicon glyphicon-calendar\"> "+events[i].eve_time.substring(0,events[i].eve_time.length - 5)+"</i>"+"</small>";	
+		li_item +="		<small class=\"pull-right\"><i class=\"glyphicon glyphicon-calendar\"> "+ events[i].eve_time.substring(0,events[i].eve_time.length - 5)+"</i>"+"</small>";	
 		li_item +="		<p><strong class=\"block\">"+events[i].eve_question + "</strong></p> ";	
 		li_item +="		<small>";	
 		li_item +="		<p style='text-indent: 2em;'>"+str+"</p>";

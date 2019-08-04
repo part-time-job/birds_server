@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.ue.config.ServerConfig;
 import com.ue.dao.EventDaoImp.CountPageMapper;
 import com.ue.domain.Comment;
 import com.ue.domain.Event;
@@ -64,10 +65,25 @@ public class EventDaoImp implements EventDao {
 		List<Event> list = new ArrayList<Event>();
 	
 		int eve_id_begin = (current_page - 1 ) * page_length + 1;
-		String sql = "SELECT * FROM tb_event WHERE use_id = ? AND eve_datatype = ? ORDER BY eve_id DESC LIMIT ?,? ";
-		LogUtils.sysoln(sql);
-		Integer[] args = { use_id, eve_datatype, eve_id_begin, page_length };
-		list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		
+		if(ServerConfig.dataType_all.equalsIgnoreCase(ServerConfig.dataType)){
+			String sql = "SELECT * FROM tb_event WHERE use_id = ? AND (eve_datatype = ? or eve_datatype = ?) ORDER BY eve_id DESC LIMIT ?,? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = { use_id, eve_datatype, eve_datatype + 100, eve_id_begin, page_length };
+			list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));			
+		}else if(ServerConfig.dataType_cicada.equalsIgnoreCase(ServerConfig.dataType)){
+			eve_datatype = eve_datatype + 100;
+			String sql = "SELECT * FROM tb_event WHERE use_id = ? AND eve_datatype = ? ORDER BY eve_id DESC LIMIT ?,? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = { use_id, eve_datatype, eve_id_begin, page_length };
+			list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		}else {
+			String sql = "SELECT * FROM tb_event WHERE use_id = ? AND eve_datatype = ? ORDER BY eve_id DESC LIMIT ?,? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = { use_id, eve_datatype, eve_id_begin, page_length };
+			list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		}
+		
 		return list;
 	}
 
@@ -75,26 +91,55 @@ public class EventDaoImp implements EventDao {
 	@Override
 	public List<Event> findEventsByPage(int current_page, int eve_datatype, int page_length) {
 		int page_count = countPage(eve_datatype,page_length);
-		// 如果是最后一页
 		if(current_page == -1 || current_page > page_count){
 			current_page = page_count;
 		}
 		List<Event> list = new ArrayList<Event>();		
 		int eve_id_begin = (current_page - 1 ) * page_length;
-		String sql = "SELECT * FROM tb_event WHERE eve_datatype = ? ORDER BY eve_id DESC LIMIT ?,? ";
-		LogUtils.sysoln(sql);
-		Integer[] args = {eve_datatype, eve_id_begin, page_length };
-		list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		if(ServerConfig.dataType_all.equalsIgnoreCase(ServerConfig.dataType)){
+			String sql = "SELECT * FROM tb_event WHERE (eve_datatype = ? or eve_datatype = ?) ORDER BY eve_id DESC LIMIT ?,? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = {eve_datatype,eve_datatype + 100, eve_id_begin, page_length };
+			list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		}else if(ServerConfig.dataType_cicada.equalsIgnoreCase(ServerConfig.dataType)){
+			eve_datatype = eve_datatype + 100;
+			String sql = "SELECT * FROM tb_event WHERE eve_datatype = ? ORDER BY eve_id DESC LIMIT ?,? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = {eve_datatype, eve_id_begin, page_length };
+			list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		}else {
+			String sql = "SELECT * FROM tb_event WHERE eve_datatype = ? ORDER BY eve_id DESC LIMIT ?,? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = {eve_datatype, eve_id_begin, page_length };
+			list = template.query(sql, args, new BeanPropertyRowMapper<Event>(Event.class));
+		}
+		
 		return list;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public int countPage(int eve_datatype,int page_length) {
-		String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE eve_datatype = ?";
-		LogUtils.sysoln(sql);
-		Integer[] args = {eve_datatype};	
-		List<Integer> list = (List<Integer>)template.query(sql, args, new CountPageMapper());
+		List<Integer> list = new ArrayList<>();
+		if(ServerConfig.dataType_all.equalsIgnoreCase(ServerConfig.dataType)){
+			String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE (eve_datatype = ? or eve_datatype = ?)";
+			LogUtils.sysoln(sql);
+			Integer[] args = {eve_datatype,eve_datatype + 100};	
+			list = (List<Integer>)template.query(sql, args, new CountPageMapper());
+		}else if(ServerConfig.dataType_cicada.equalsIgnoreCase(ServerConfig.dataType)){
+			eve_datatype = eve_datatype + 100;
+			String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE eve_datatype = ?";
+			LogUtils.sysoln(sql);
+			Integer[] args = {eve_datatype};	
+			list = (List<Integer>)template.query(sql, args, new CountPageMapper());
+		}else {
+			String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE eve_datatype = ?";
+			LogUtils.sysoln(sql);
+			Integer[] args = {eve_datatype};	
+			list = (List<Integer>)template.query(sql, args, new CountPageMapper());
+		}
+		
+		
 		if(list == null ){
 			return 0;
 		}
@@ -181,13 +226,27 @@ public class EventDaoImp implements EventDao {
 	}
 	@Override
 	public List<Event> searchEventByPage(int pageNow, int pageSize, int dataType, boolean filterByUserId, int userId) {
-		// TODO Auto-generated method stub
 		String sql;
 		int preCount = (pageNow-1)*pageSize;
 		if(filterByUserId==false){
-			sql = "select * from tb_event where eve_datatype="+dataType+" ORDER BY eve_id DESC limit ?,"+pageSize;
+			if(ServerConfig.dataType_all.equalsIgnoreCase(ServerConfig.dataType)){
+				sql = "select * from tb_event where (eve_datatype="+dataType+" or eve_datatype="+(dataType + 100 )+" ) ORDER BY eve_id DESC limit ?,"+pageSize;
+			}else if(ServerConfig.dataType_cicada.equalsIgnoreCase(ServerConfig.dataType)){
+				dataType = dataType + 100;
+				sql = "select * from tb_event where eve_datatype="+dataType+" ORDER BY eve_id DESC limit ?,"+pageSize;
+			}else {
+				sql = "select * from tb_event where eve_datatype="+dataType+" ORDER BY eve_id DESC limit ?,"+pageSize;
+			}
 		}else{
-			sql = "select * from tb_event where use_id="+userId+" and eve_datatype="+dataType+" ORDER BY eve_id DESC limit ?,"+pageSize;
+			
+			if(ServerConfig.dataType_all.equalsIgnoreCase(ServerConfig.dataType)){
+				sql = "select * from tb_event where use_id="+userId+" and (eve_datatype="+dataType+" or eve_datatype="+(dataType+100)+") ORDER BY eve_id DESC limit ?,"+pageSize;
+			}else if(ServerConfig.dataType_cicada.equalsIgnoreCase(ServerConfig.dataType)){
+				dataType = dataType + 100;
+				sql = "select * from tb_event where use_id="+userId+" and eve_datatype="+dataType+" ORDER BY eve_id DESC limit ?,"+pageSize;
+			}else {
+				sql = "select * from tb_event where use_id="+userId+" and eve_datatype="+dataType+" ORDER BY eve_id DESC limit ?,"+pageSize;
+			}
 		}
 		return (List<Event>) template.query(sql,new Integer[]{preCount},new BeanPropertyRowMapper<Event>(Event.class));
 	}
@@ -209,7 +268,6 @@ public class EventDaoImp implements EventDao {
 
 	@Override
 	public List<Event> getAudioTopTen() {
-		// TODO Auto-generated method stub
 		return (List<Event>) template.query(AUDIOTOPLIST,new Integer[]{},new BeanPropertyRowMapper<Event>(Event.class));
 	}
 	class PageNum implements RowMapper {  
@@ -290,10 +348,25 @@ public class EventDaoImp implements EventDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public int countPageUse_id(int use_id, int eve_datatype, int page_length) {
-		String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE eve_datatype = ? and use_id = ? ";
-		LogUtils.sysoln(sql);
-		Integer[] args = { eve_datatype, use_id };
-		List<Integer> list = (List<Integer>) template.query(sql, args, new CountPageMapper());
+		List<Integer> list = new ArrayList<>();
+		if(ServerConfig.dataType_all.equalsIgnoreCase(ServerConfig.dataType)){
+			String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE (eve_datatype = ? or eve_datatype = ?) and use_id = ? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = { eve_datatype, eve_datatype + 100, use_id };
+			list = (List<Integer>) template.query(sql, args, new CountPageMapper());
+		}else if(ServerConfig.dataType_cicada.equalsIgnoreCase(ServerConfig.dataType)){
+			eve_datatype = eve_datatype + 100;
+			String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE eve_datatype = ? and use_id = ? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = { eve_datatype, use_id };
+			list = (List<Integer>) template.query(sql, args, new CountPageMapper());
+		}else {
+			String sql = "SELECT COUNT(*) AS count_result FROM tb_event WHERE eve_datatype = ? and use_id = ? ";
+			LogUtils.sysoln(sql);
+			Integer[] args = { eve_datatype, use_id };
+			list = (List<Integer>) template.query(sql, args, new CountPageMapper());
+		}
+		
 		if (list == null) {
 			return 0;
 		}

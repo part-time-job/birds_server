@@ -26,13 +26,31 @@ import com.ue.utils.LogUtils;
 @RequestMapping(value = "/api/event") // url映射
 public class EventAPIController {
 	
-	private EventService eventService;
+	private EventService eventService;	
 
 	public EventAPIController() {
 		LogUtils.sysoln("*********PureTextController***********");
 		eventService = (EventService) BeanUtils.getBean("eventService");
 	}
 
+
+	@RequestMapping(value = "/setting/dataType")
+	public String countPages(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
+			throws IOException {
+		
+		String dataType = request.getParameter("dataType");
+		LogUtils.syso("dataType::" + dataType);
+		if(ServerConfig.dataType_bird.equalsIgnoreCase(dataType)){ // 鸟
+			ServerConfig.dataType = ServerConfig.dataType_bird;
+		} else if(ServerConfig.dataType_cicada.equalsIgnoreCase(dataType)){ // 蝉
+			ServerConfig.dataType = ServerConfig.dataType_cicada;
+		} else {
+			ServerConfig.dataType = ServerConfig.dataType_all;
+		}
+		
+		return null;
+	}
+	
 	@RequestMapping(value = "/puretext/countPage")
 	public String puretextCountPage(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap)
 			throws IOException {

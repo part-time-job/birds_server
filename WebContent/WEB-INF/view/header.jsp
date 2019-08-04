@@ -93,7 +93,7 @@
 	<div class="main-nav">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6 col-sm-7">
+				<div class="col-md-6 col-sm-6">
 					<div class="list-menu">
 						<ul>
 							<li class="article"><a href="picture" target="mainframe">图片</a></li>
@@ -105,7 +105,21 @@
 					<!-- /.list-menu -->
 				</div>
 				<!-- /.col-md-6 -->
-				<div class="col-md-6 col-sm-5">
+				<div class="col-md-2 col-sm-2">
+					<div class="list-menu">
+						<ul>
+							<li class="article">
+								<select class="form-control" style = "width:100%" id="data_type_select">
+								  <option value="all">全部</option>
+								  <option value="bird">鸟</option>
+								  <option value="cicada">禅</option>
+								</select>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /.col-md-6 -->
+				<div class="col-md-4 col-sm-4">
 					<div class="notification">
 						<span>请爱护那些鸟类，就像爱护我们自己</span>
 					</div>

@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/com/ue/api/EventAPIController.java=UTF-8
+encoding//src/com/ue/dao/EventDaoImp.java=UTF-8
+encoding//src/com/ue/domain/Event.java=UTF-8
+encoding//src/com/ue/service/EventService.java=UTF-8

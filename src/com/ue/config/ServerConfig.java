@@ -11,4 +11,16 @@ public class ServerConfig {
 	
 	public static String detailAudio = "detailAudio";
 	
+	public static String dataType_all = "all";
+	public static String dataType_bird = "bird";
+	public static String dataType_cicada = "cicada";
+	/**
+	 * all 
+	 * bird 
+	 * cicada ²õ
+	 */
+	public static String dataType = dataType_all;
+
+
+	
 }
