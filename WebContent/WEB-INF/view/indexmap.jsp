@@ -26,7 +26,7 @@ document.getElementById("wxImg").style.display='none';
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h2>已有<u><span id="userCount"></span></u>位用户加入我们，累计<u><span id="eventCount"></span></u>次上传，<u><span id="commentCount"></span></u>次互动，约有<u><span id="countBirds"></span></u>只鸟儿被发现！</h2>
+			<h2>已有<u><span id="userCount"></span></u>位用户加入我们，累计<u><span id="eventCount"></span></u>次上传，<u><span id="commentCount"></span></u>次互动，约有<u><span id="countBirds"></span></u>只鸟(或蝉)被发现！</h2>
 		</div>
 	</div>
 	<div class="row">

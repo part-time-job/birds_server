@@ -112,7 +112,7 @@
 								<select class="form-control" style = "width:100%" id="data_type_select">
 								  <option value="all">全部</option>
 								  <option value="bird">鸟</option>
-								  <option value="cicada">禅</option>
+								  <option value="cicada">蝉</option>
 								</select>
 							</li>
 						</ul>

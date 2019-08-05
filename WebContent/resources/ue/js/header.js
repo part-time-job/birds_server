@@ -1,10 +1,18 @@
 function showLoginModel() {
 	changeCode(); // 刷新验证吗
-	$('#login_Modal').modal('show');
-
+	$('#login_Modal').modal('show');	　
 }
 
 $(document).ready(function(){  
+	$.ajax({
+		type : "post",
+		url : "../api/event/setting/dataType",
+		async : true,
+		data : "dataType=all",
+		success : function() {
+            
+		}
+	});
 　$('#data_type_select').change(function(){  
 	var dataType = $(this).children('option:selected').val();
 

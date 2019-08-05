@@ -9,7 +9,7 @@ import com.ue.domain.Event;
 public interface EventDao extends Serializable {
 
 	/**
-	 * 分页查找
+	 * 鍒嗛〉鏌ユ壘
 	 * 
 	 * @param eve_id_begin
 	 * @param use_id
@@ -30,11 +30,11 @@ public interface EventDao extends Serializable {
 
 	/**
 	 * 
-	 * 向数据库添加一个对象
+	 * 鍚戞暟鎹簱娣诲姞涓�涓璞�
 	 * 
 	 * @param event
-	 *            对应的对象
-	 * @return 整数表示添加成功，否则添加失败
+	 *            瀵瑰簲鐨勫璞�
+	 * @return 鏁存暟琛ㄧず娣诲姞鎴愬姛锛屽惁鍒欐坊鍔犲け璐�
 	 */
 	boolean insertEvent(Event event);
 
@@ -50,7 +50,7 @@ public interface EventDao extends Serializable {
 
 	int getPageNum(int dataType);
 
-	// 删除
+	// 鍒犻櫎
 	boolean deleteEventByEventId(int eventId);
 
 	List<Event> searchEventByUserId(int userId);
